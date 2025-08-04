@@ -2,13 +2,13 @@
 # include <stdio.h>
 # include <unistd.h>
 
-// typedef struct s_data
-// {
-//     bool eats;
-//     bool thinks;
-//     bool sleeps;
-//     int  fork_array[2];
-// }   t_data;
+typedef struct s_philo
+{
+    int eats;
+    int thinks;
+    int sleeps;
+    int  fork_array[2];
+}   t_philo;
 
 // void    *philo_routine(void *arg)
 // {
@@ -36,18 +36,15 @@
 //     return (0);
 // }
 
-pthread_t tid[2];
+pthread_t tid[4];
 int counter;
 pthread_mutex_t lock;
 
 void* trythis(void* arg)
 {
     pthread_mutex_lock(&lock);
-    // unsigned long i = 0;
     counter += 1;
     printf("\n Job %d has started\n", counter);
-
-    // i++;
 
     printf("\n Job %d has finished\n", counter);
 
@@ -65,15 +62,17 @@ int main(void)
         printf("\n mutex init has failed\n");
         return 1;
     }
-    while (i < 2) {
+    while (i < 4)
+    {
         error = pthread_create(&(tid[i]), NULL, &trythis, NULL);
         if (error != 0)
             printf("\non of the thread can't be created\n");
         i++;
     }
-
     pthread_join(tid[0], NULL);
     pthread_join(tid[1], NULL);
+    pthread_join(tid[2], NULL);
+    pthread_join(tid[3], NULL);
     pthread_mutex_destroy(&lock);
     return 0;
 }
