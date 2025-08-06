@@ -1,40 +1,4 @@
-# include <pthread.h>
-# include <stdio.h>
-# include <unistd.h>
-
-typedef struct s_philo
-{
-    int eats;
-    int thinks;
-    int sleeps;
-    int  fork_array[2];
-}   t_philo;
-
-// void    *philo_routine(void *arg)
-// {
-//     s_data *data = (s_data *)arg;
-
-    
-//     return (NULL);
-// }
-
-// int    main()
-// {
-//     pthread_t thread1;
-//     pthread_t thread2;
-//     s_data data;
-
-//     data.eats = false;
-//     data.thinks = false
-//     data.sleeps = false;
-//     data.fork_array[0] = 1;
-//     data.fork_array[1] = 1;
-//     pthread_create(&thread1, NULL, philo_routine, &data);
-//     pthread_create(&thread2, NULL, philo_routine, &data);
-//     pthread_join(thread, NULL);
-//     printf("i: %d\nj: %d\n", i, k);
-//     return (0);
-// }
+# include "philo.h"
 
 pthread_t tid[4];
 int counter;
