@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:05:32 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/06 15:22:46 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/06 17:56:18 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_fork	*fork_lstnew(int i)
 	
 	new = malloc(sizeof (t_philo));
 	if (!new)
-		return (NULL);
+		return (print_and_return(TOO_MUCH_ARGC, ERR_MALLOC));
 	new->next = NULL;
 	new->fork_available = true;
 	pthread_mutex_init(&new->m_fork, NULL);

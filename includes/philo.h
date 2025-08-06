@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/06 15:24:56 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/06 17:57:17 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # define TOO_MUCH_ARGC "indecent number arguments 🧘🏻‍♂️\n"
 # define TOO_FEW_ARGC "A few more argument would be appreciated 🙏🏻🙏🏻🙏🏻\n"
+# define OMG "Dear lord a malloc just failed "
 
 //////////////////  ♣    enum    ♣  //////////////////
 

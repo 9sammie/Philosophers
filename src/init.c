@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:15:39 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/06 16:01:40 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/06 17:53:31 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,28 @@ void	room_init(int argc, char **argv, t_room *room)
 	room->philo_died = false;
 }
 
-void	philo_and_fork_init(t_room *room)
+void	philo_and_fork_init(t_room *room, t_fork *fork, t_philo *philo)
 {
-	t_fork	*fork;
-	t_philo	*philo;
+	t_fork *new_fork;
+	t_fork *new_philo;
 	int		i;
 	
 	i = 1;
+	new_fork = fork_lstnew(i);
+	fork_lstadd_back(fork, new_fork);
 	while (i <= room->philo_nbr)
 	{
-		
+		new_fork = fork_lstnew(i);
+		fork_lstadd_back(fork, new_fork);
+		i++;
+	}
+	i = 1;
+	new_philo = philo_lstnew(i, room->philo_nbr, fork);
+	philo_lstadd_back(philo, new_philo);
+	while (i <= room->philo_nbr)
+	{
+		new_philo = philo_lstnew(i, room->philo_nbr, fork);
+		philo_lstadd_back(philo, new_fork);
 		i++;
 	}
 }
