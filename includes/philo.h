@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/06 10:43:00 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/06 15:24:56 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,15 @@ typedef struct	s_philo
 
 ///////////////////  ♥ fonctions ♥  //////////////////
 
+t_fork	*fork_lstnew(int i);
+void	fork_lstadd_back(t_fork **lst, t_fork *new);
+t_philo	*philo_lstnew(int i, int nbr_philo, t_fork *fork);
+void	philo_lstadd_back(t_philo **lst, t_philo *new);
+int		ft_atoi(const char *nptr);
+time_t	ft_atot(const char *nptr);
+void	room_init(int argc, char **argv, t_room *room);
+void	philo_and_fork_init(t_room *room);
+int	print_and_return(char *print, int i);
+time_t	get_time_in_milliseconds(void);
 
 #endif

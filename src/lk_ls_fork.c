@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:05:32 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/06 14:08:29 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/06 15:22:46 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_fork	*fork_lstnew(int i)
 	new->id = i;
 }
 
-t_fork	*fork_lstlast(t_fork *lst)
+static t_fork	*fork_lstlast(t_fork *lst)
 {
 	t_fork	*last;
 

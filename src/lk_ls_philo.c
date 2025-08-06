@@ -1,6 +1,6 @@
 # include "philo.h"
 
-t_fork	*find_fork_pointer(char *s, int i, t_fork *fork, int nbr_philo)
+static t_fork	*find_fork_pointer(char *s, int i, t_fork *fork, int nbr_philo)
 {
 	t_fork *current;
 	int		j;
@@ -34,7 +34,7 @@ t_philo	*philo_lstnew(int i, int nbr_philo, t_fork *fork)
 	return (new);
 }
 
-t_philo	*philo_lstlast(t_philo *lst)
+static t_philo	*philo_lstlast(t_philo *lst)
 {
 	t_philo	*last;
 
