@@ -1,12 +1,12 @@
 # include "philo.h"
 
-static t_fork	*find_fork_pointer(char *s, int i, t_fork *fork, int nbr_philo)
+static t_fork	*find_fork_pointer(bool is_right_fork, int i, t_fork *fork, int nbr_philo)
 {
 	t_fork *current;
 	int		j;
 
 	current = fork;
-	if (s == "right" && i == nbr_philo)
+	if (is_right_fork == true && i == nbr_philo)
 		return (current);
 	j = 1;
 	while (j != i)
@@ -14,7 +14,7 @@ static t_fork	*find_fork_pointer(char *s, int i, t_fork *fork, int nbr_philo)
 		current = current->next;
 		j++;
 	}
-	if (s == "right")
+	if (is_right_fork == true)
 		current = current->next;
 	return (current);
 }
@@ -25,12 +25,12 @@ t_philo	*philo_lstnew(int i, int nbr_philo, t_fork *fork)
 
 	new = malloc(sizeof (t_philo));
 	if (!new)
-		return (NULL);
+		return (print_return_t_philo(MALLOC_FAIL, NULL));
 	new->next = NULL;
 	new->id = i;
 	new->still_alive = true;
-	new->left_fork = find_fork_pointer("left", i, fork, nbr_philo);
-	new->right_fork = find_fork_pointer("right", i, fork, nbr_philo);
+	new->left_fork = find_fork_pointer(false, i, fork, nbr_philo);
+	new->right_fork = find_fork_pointer(true, i, fork, nbr_philo);
 	return (new);
 }
 

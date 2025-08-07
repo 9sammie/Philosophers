@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/06 17:57:17 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/07 17:02:25 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 # include <stdbool.h>
 # include <sys/time.h>
 # include <time.h>
+# include <stdlib.h>
 
 //////////////////  ♠  messages  ♠  //////////////////
 
-# define TOO_MUCH_ARGC "indecent number arguments 🧘🏻‍♂️\n"
-# define TOO_FEW_ARGC "A few more argument would be appreciated 🙏🏻🙏🏻🙏🏻\n"
-# define OMG "Dear lord a malloc just failed "
+# define TOO_MUCH_ARGC "Indecent number arguments\n"
+# define TOO_FEW_ARGC "A few more argument would be appreciated\n"
+# define MALLOC_FAIL "A malloc just failed "
+# define MUTEX_FAIL "A mutex just failed "
 
 //////////////////  ♣    enum    ♣  //////////////////
 
@@ -77,8 +79,11 @@ void	philo_lstadd_back(t_philo **lst, t_philo *new);
 int		ft_atoi(const char *nptr);
 time_t	ft_atot(const char *nptr);
 void	room_init(int argc, char **argv, t_room *room);
-void	philo_and_fork_init(t_room *room);
-int	print_and_return(char *print, int i);
+void	philo_and_fork_init(t_room *room, t_fork *fork, t_philo *philo);
+int		print_return_int(char *print, int i);
 time_t	get_time_in_milliseconds(void);
+t_fork	*print_return_t_fork(char *print, t_fork *error);
+t_philo	*print_return_t_philo(char *print, t_philo *error);
+int	param_check(int argc, char **argv);
 
 #endif

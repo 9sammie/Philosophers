@@ -32,6 +32,7 @@ SRC						=		atoi_atot.c\
 								init.c\
 								lk_ls_fork.c\
 								lk_ls_philo.c\
+								main.c\
 								utils.c
 
 INCLUDES				=		-Iincludes
