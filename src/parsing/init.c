@@ -6,48 +6,67 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:15:39 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/07 16:04:20 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/26 19:00:55 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-void	room_init(int argc, char **argv, t_room *room)
+int	room_init(int argc, char **argv, t_room *room)
 {
-	room->start_time = 0;
+	room->errcode = 10;
+	room->t_start = 0;
 	room->philo_nbr = ft_atoi(argv[1]); 
-	room->die_time = ft_atot(argv[2]);
-	room->eat_time = ft_atot(argv[3]);
-	room->sleep_time = ft_atot(argv[4]);
+	room->t_die = ft_atot(argv[2]);
+	room->t_eat = ft_atot(argv[3]);
+	room->t_sleep = ft_atot(argv[4]);
 	if (argc == 6)
-		room->meals_remaining = ft_atoi(argv[5]);
+		room->meals_nbr = ft_atoi(argv[5]);
 	else
-		room->meals_remaining = -1;
-	room->philo_died = false;
+		room->meals_nbr = -1;
+	room->philo_died = false; 
+	if(pthread_mutex_init(&room->m_philo_died, NULL) != 0)
+		return(p_ret_int(MUTEX_FAIL, ERR_MUTEX, room, -1));
+	if(pthread_mutex_init(&room->m_meals_left, NULL) != 0)
+		return(p_ret_int(MUTEX_FAIL, ERR_MUTEX, room, 1));
+	if(pthread_mutex_init(&room->m_printable, NULL) != 0)
+		return(p_ret_int(MUTEX_FAIL, ERR_MUTEX, room, 2));
+	return (0);
 }
 
-void	philo_and_fork_init(t_room *room, t_fork *fork, t_philo *philo)
+int	philo_and_fork_init(t_room *room, t_fork **fork, t_philo **philo)
 {
 	t_fork *new_fork;
 	t_philo *new_philo;
 	int		i;
 	
 	i = 1;
-	new_fork = fork_lstnew(i);
-	fork_lstadd_back(&fork, new_fork);
-	while (i <= room->philo_nbr)
+	new_fork = fork_lstnew(i, room);
+	if (new_fork == NULL)
+		return(-1);
+	fork_lstadd_back(fork, new_fork);
+	i++;
+	while (i <= (room->philo_nbr) + 1)
 	{
-		new_fork = fork_lstnew(i);
-		fork_lstadd_back(&fork, new_fork);
+		new_fork = fork_lstnew(i, room);
+		if (new_fork == NULL)
+			return(-1);
+		fork_lstadd_back(fork, new_fork);
 		i++;
 	}
 	i = 1;
-	new_philo = philo_lstnew(i, room->philo_nbr, fork);
-	philo_lstadd_back(&philo, new_philo);
-	while (i <= room->philo_nbr)
+	new_philo = philo_lstnew(i, room, *fork);
+	if (new_philo == NULL)
+		return(-1);
+	philo_lstadd_back(philo, new_philo);
+	i++;
+	while (i <= (room->philo_nbr) + 1)
 	{
-		new_philo = philo_lstnew(i, room->philo_nbr, fork);
-		philo_lstadd_back(&philo, new_philo);
+		new_philo = philo_lstnew(i, room, *fork);
+		if (new_philo == NULL)
+			return(-1);
+		philo_lstadd_back(philo, new_philo);
 		i++;
 	}
+	return(0);
 }

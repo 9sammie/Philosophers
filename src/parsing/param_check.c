@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:53:08 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/26 06:53:00 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/26 18:56:14 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,20 @@ static int	argv_check(int argc, char **argv)
 			|| string_is_not_digit(argv[2])
 			|| string_is_not_digit(argv[3])
 			|| string_is_not_digit(argv[4]))
-		return (print_return_int(NOT_DIGIT, ERR_PROMPT));
+		return (p_ret_int(NOT_DIGIT, ERR_PROMPT, NULL, 0));
 	if ((argc == 6 && string_is_not_digit(argv[5])))
-		return (print_return_int(NOT_DIGIT, ERR_PROMPT));
+		return (p_ret_int(NOT_DIGIT, ERR_PROMPT, NULL, 0));
 	if (ft_atoi(argv[1]) > 200)
-		return (print_return_int(PHILO_MAX, ERR_PROMPT));
+		return (p_ret_int(PHILO_MAX, ERR_PROMPT, NULL, 0));
 	return (0);
 }
 
 static int	argc_check(int argc)
 {
 	if (argc > 6)
-		return (print_return_int(TOO_MUCH_ARGC, ERR_PROMPT));
+		return (p_ret_int(TOO_MUCH_ARGC, ERR_PROMPT, NULL, 0));
 	if (argc < 5)
-		return (print_return_int(TOO_FEW_ARGC, ERR_PROMPT));
+		return (p_ret_int(TOO_FEW_ARGC, ERR_PROMPT, NULL, 0));
 	return (ALL_OK);
 }
 

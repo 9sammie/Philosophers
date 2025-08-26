@@ -19,6 +19,7 @@ OBJ_DIR					=		obj
 SRC_DIR					=		src
 PARS_DIR				=		parsing
 EXEC_DIR				=		execution
+UTILS_DIR				=		utils
 
 ###################################################################################
 ###									FLAGS										###
@@ -38,14 +39,18 @@ FILES_PARS				=		atoi_atot.c\
 
 FILES_EXEC				=		
 
-FILES_ROOT					=	main.c\
-								utils.c\
+FILES_UTILS				=		clean_project.c\
+								print_return.c\
+								utils.c
+
+FILES_ROOT				=		main.c
 
 SRC						=		$(addprefix $(SRC_DIR)/, $(FILES_ROOT)) \
 								$(addprefix $(SRC_DIR)/$(PARS_DIR)/, $(FILES_PARS)) \
-								$(addprefix $(SRC_DIR)/$(EXEC_DIR)/, $(FILES_EXEC))
+								$(addprefix $(SRC_DIR)/$(EXEC_DIR)/, $(FILES_EXEC)) \
+								$(addprefix $(SRC_DIR)/$(UTILS_DIR)/, $(FILES_UTILS))
 								
-INCLUDE				=		-Iinclude
+INCLUDE					=		-Iinclude
 HEADER					=		include/philo.h
 OBJ						=		$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -65,6 +70,7 @@ $(OBJ_DIR):
 			mkdir -p $(OBJ_DIR)
 			mkdir -p $(OBJ_DIR)/$(PARS_DIR)
 			mkdir -p $(OBJ_DIR)/$(EXEC_DIR)
+			mkdir -p $(OBJ_DIR)/$(UTILS_DIR)
 
 re: fclean
 			$(MAKE) all
