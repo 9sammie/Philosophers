@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:57:17 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/07 16:53:24 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/07 17:36:44 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 	
 	fork = NULL;
 	philo = NULL;
-	if (arg_check(argc, argv) != ALL_OK)
+	if (param_check(argc, argv) != ALL_OK)
 		return (ERR_PROMPT);
 	room_init(argc, argv, &room);
 	philo_and_fork_init(&room, fork, philo);

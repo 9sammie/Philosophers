@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/07 17:02:25 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/07 18:35:47 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,20 @@
 
 //////////////////  ♠  messages  ♠  //////////////////
 
-# define TOO_MUCH_ARGC "Indecent number arguments\n"
-# define TOO_FEW_ARGC "A few more argument would be appreciated\n"
-# define MALLOC_FAIL "A malloc just failed "
-# define MUTEX_FAIL "A mutex just failed "
+# define TOO_MUCH_ARGC "Error: indecent number arguments\n"
+# define TOO_FEW_ARGC "Error: a few more argument would be appreciated\n"
+# define PHILO_MAX "Error: too many philosophers\n"
+# define NOT_DIGIT "Error: Please enter digit parameters only\n"
+# define MALLOC_FAIL "Error: a malloc just failed\n"
+# define MUTEX_FAIL "Error: a mutex just failed\n"
 
 //////////////////  ♣    enum    ♣  //////////////////
 
 typedef enum e__error
 {
-	ALL_OK = 0,
-	ERR_PROMPT = 1,
-	ERR_MALLOC = 2,
+	ALL_OK,
+	ERR_PROMPT,
+	ERR_MALLOC,
 }	t__error;
 
 //////////////////  ♦ structures ♦  //////////////////
@@ -84,6 +86,6 @@ int		print_return_int(char *print, int i);
 time_t	get_time_in_milliseconds(void);
 t_fork	*print_return_t_fork(char *print, t_fork *error);
 t_philo	*print_return_t_philo(char *print, t_philo *error);
-int	param_check(int argc, char **argv);
+int		param_check(int argc, char **argv);
 
 #endif
