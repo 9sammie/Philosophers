@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi_atot.c                                        :+:      :+:    :+:   */
+/*   converter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:14:44 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/06 15:46:26 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 12:52:53 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+# include <limits.h>
 
 time_t	ft_atot(const char *nptr)
 {
@@ -60,4 +61,25 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (result * sign);
+}
+
+unsigned int	ft_atouint_overflow(const char *nbr)
+{
+	int				i;
+	unsigned int	result;
+
+	i = 0;
+	result = 0;
+	if (nbr[i] == '\0')
+		return (UINT_MAX);
+	while (nbr[i] == ' ' || (nbr[i] >= 9 && nbr[i] <= 13))
+		i++;
+	while (nbr[i] >= '0' && nbr[i] <= '9')
+	{
+		result = result * 10 + (nbr[i] - '0');
+		if (result > UINT_MAX / 1000)
+			return (UINT_MAX);
+		i++;
+	}
+	return (result);
 }

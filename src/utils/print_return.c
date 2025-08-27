@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 13:35:10 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/26 14:18:42 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 13:20:39 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	p_ret_int(char *print, int i, t_room *room, int errcode)
 {
 	printf("%s", print);
-	room->errcode = errcode;
+	if (room)
+		room->errcode = errcode;
 	if (errcode == 0)
 		return(i);
 	else
@@ -26,7 +27,8 @@ int	p_ret_int(char *print, int i, t_room *room, int errcode)
 void	p_ret_void(char *print, t_room *room, int errcode)
 {
 	printf("%s", print);
-	room->errcode = errcode;
+	if (room)
+		room->errcode = errcode;
 	if (errcode == 0)
 		return;
 	else
@@ -36,7 +38,8 @@ void	p_ret_void(char *print, t_room *room, int errcode)
 t_fork	*p_ret_t_fork(char *print, t_fork *err, t_room *room, int errcode)
 {
 	printf("%s", print);
-	room->errcode = errcode;
+	if (room)
+		room->errcode = errcode;
 	if (errcode == 0)
 		return(err);
 	else
@@ -47,7 +50,8 @@ t_fork	*p_ret_t_fork(char *print, t_fork *err, t_room *room, int errcode)
 t_philo	*p_ret_t_philo(char *print, t_philo *err, t_room *room, int errcode)
 {
 	printf("%s", print);
-	room->errcode = errcode;
+	if (room)
+		room->errcode = errcode;
 	if (errcode == 0)
 		return(err);
 	else

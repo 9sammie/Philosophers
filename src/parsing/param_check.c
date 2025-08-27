@@ -6,35 +6,20 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:53:08 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/26 18:56:14 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 13:09:48 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-static int	string_is_not_digit(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 static int	argv_check(int argc, char **argv)
 {
-	if (string_is_not_digit(argv[1])
-			|| string_is_not_digit(argv[2])
-			|| string_is_not_digit(argv[3])
-			|| string_is_not_digit(argv[4]))
-		return (p_ret_int(NOT_DIGIT, ERR_PROMPT, NULL, 0));
-	if ((argc == 6 && string_is_not_digit(argv[5])))
-		return (p_ret_int(NOT_DIGIT, ERR_PROMPT, NULL, 0));
+	if (negative_check(argc, argv) != ALL_OK)
+		return(ERR_PROMPT);
+	if (digit_check(argc, argv) != ALL_OK)
+		return(ERR_PROMPT);
+	if (overflow_check(argv) != ALL_OK)
+		return(ERR_PROMPT);
 	if (ft_atoi(argv[1]) > 200)
 		return (p_ret_int(PHILO_MAX, ERR_PROMPT, NULL, 0));
 	return (0);

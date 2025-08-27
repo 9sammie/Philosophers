@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/26 15:48:42 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 13:36:18 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define NOT_DIGIT		"Error: Please enter digit parameters only\n"
 # define MALLOC_FAIL	"Error: a malloc just failed\n"
 # define MUTEX_FAIL		"Error: a mutex just failed\n"
+# define NOT_POSITIVE	"Error: negative numbers are ruining the mood...\n"
+# define OVERFLOW		"Error: an overflow shall not be accepted\n"
 
 //////////////////  ♣    enum    ♣  //////////////////
 
@@ -44,11 +46,11 @@ typedef enum e__error
 
 typedef struct	s_room
 {
-	time_t			t_start;
-	time_t			t_die;
-	time_t			t_eat;
-	time_t			t_sleep;
-	time_t			time_passed;
+	size_t			t_sim_start;
+	size_t			t_die;
+	size_t			t_eat;
+	size_t			t_sleep;
+	size_t			time_passed;
 	int				philo_nbr;
 	int				meals_nbr;
 	int				errcode;
@@ -93,31 +95,38 @@ typedef struct	s_philo
 
 ///// Parsing /////
 
-/*atoi_atot.c*/
-time_t	ft_atot(const char *nptr);
-int		ft_atoi(const char *nptr);
+/*checks.c*/
+int				digit_check(int argc, char **argv);
+int				negative_check(int argc, char **argv);
+int				overflow_check(char **argv);
+/*converter.c*/
+time_t			ft_atot(const char *nptr);
+int				ft_atoi(const char *nptr);
+unsigned int	ft_atouint_overflow(const char *nbr);
 /*init.c*/
-int		room_init(int argc, char **argv, t_room *room);
-int		philo_and_fork_init(t_room *room, t_fork **fork, t_philo **philo);
+int				room_init(int argc, char **argv, t_room *room);
+int				philo_and_fork_init(t_room *room, t_fork **fork, t_philo **philo);
 /*lk_ls_fork.c*/
-t_fork	*fork_lstnew(int i, t_room *room);
-void	fork_lstadd_back(t_fork **lst, t_fork *new);
+t_fork			*fork_lstnew(int i, t_room *room);
+void			fork_lstadd_back(t_fork **lst, t_fork *new);
 /*lk_ls_philo.c*/
-t_philo	*philo_lstnew(int i, t_room *room, t_fork *fork);
-void	philo_lstadd_back(t_philo **lst, t_philo *new);
+t_philo			*philo_lstnew(int i, t_room *room, t_fork *fork);
+void			philo_lstadd_back(t_philo **lst, t_philo *new);
 /*param_check.c*/
-int		param_check(int argc, char **argv);
+int				param_check(int argc, char **argv);
 
 ///// Utils /////
 
 /*clean_project.c*/
-int	clean_project(t_room *room, t_fork *fork, t_philo *philo);
+int				clean_project(t_room *room, t_fork *fork, t_philo *philo);
 /*print_return.c*/
-int		p_ret_int(char *print, int i, t_room *room, int errcode);
-void	p_ret_void(char *print, t_room *room, int errcode);
-t_fork	*p_ret_t_fork(char *print, t_fork *err, t_room *room, int errcode);
-t_philo	*p_ret_t_philo(char *print, t_philo *err, t_room *room, int errcode);
+int				p_ret_int(char *print, int i, t_room *room, int errcode);
+void			p_ret_void(char *print, t_room *room, int errcode);
+t_fork			*p_ret_t_fork(char *print, t_fork *err, t_room *room, int errcode);
+t_philo			*p_ret_t_philo(char *print, t_philo *err, t_room *room, int errcode);
 /*utils.c*/
-time_t	get_time_in_milliseconds(void);
+size_t			get_time_in_milliseconds(void);
+void			free_ls_fork(t_fork *fork);
+void			free_ls_philo(t_philo *philo);
 
 #endif

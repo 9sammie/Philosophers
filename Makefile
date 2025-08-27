@@ -31,7 +31,8 @@ CFLAGS					=		-Wall -Wextra -Werror
 ###									FILES										###
 ###################################################################################
 
-FILES_PARS				=		atoi_atot.c\
+FILES_PARS				=		checks.c\
+								converter.c\
 								init.c\
 								lk_ls_fork.c\
 								lk_ls_philo.c\
