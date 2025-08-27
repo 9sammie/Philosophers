@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:53:08 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 13:09:48 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 16:27:01 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	argv_check(int argc, char **argv)
 		return(ERR_PROMPT);
 	if (digit_check(argc, argv) != ALL_OK)
 		return(ERR_PROMPT);
-	if (overflow_check(argv) != ALL_OK)
+	if (overflow_and_empty_check(argv) != ALL_OK)
 		return(ERR_PROMPT);
 	if (ft_atoi(argv[1]) > 200)
 		return (p_ret_int(PHILO_MAX, ERR_PROMPT, NULL, 0));

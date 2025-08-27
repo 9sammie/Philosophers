@@ -23,14 +23,14 @@ int main(void)
 
     if (pthread_mutex_init(&lock, NULL) != 0) 
     {
-        printf("\n mutex init has failed\n");
+        printf("\nmutex init has failed\n");
         return 1;
     }
     while (i < 4)
     {
         error = pthread_create(&(tid[i]), NULL, &trythis, NULL);
         if (error != 0)
-            printf("\non of the thread can't be created\n");
+            printf("\none of the thread can't be created\n");
         i++;
     }
     pthread_join(tid[0], NULL);

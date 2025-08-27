@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:05:32 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/26 18:53:04 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 20:26:50 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_fork	*fork_lstnew(int i, t_room *room)
 		return (p_ret_t_fork(MALLOC_FAIL, NULL, room, 3));
 	new->next = NULL;
 	new->available = true;
-	if (pthread_mutex_init(&new->mutex, NULL) != 0)
+	if (pthread_mutex_init(&new->m_available, NULL) != 0)
 	{
 		free(new);
 		return (p_ret_t_fork(MUTEX_FAIL, NULL, room, 3));

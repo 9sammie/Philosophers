@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:52 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 13:35:19 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 20:14:57 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,17 @@ void	free_ls_philo(t_philo *philo)
 		free(philo);
 		philo = next;
 	}
+}
+
+void	print_change_of_state(t_philo *philo, size_t msg)
+{
+	size_t	timestamp;
+	
+	pthread_mutex_lock(&philo->room->m_printing);
+	pthread_mutex_lock(&philo->room->m_philo_died);
+	timestamp = get_time_in_milliseconds() - philo->room->t_sim_start;
+	if (msg == TAKE_A_FORK && philo->room->philo_died != true)
+		printf("%zu %zu has taken a fork\n", timestamp, philo->id);
+	if (msg == IS_EATING && philo->room->philo_died != true)
+		printf("%zu %zu is eating\n", timestamp, philo->id);
 }

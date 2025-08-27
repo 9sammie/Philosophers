@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:14:44 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 12:52:53 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 16:34:32 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ unsigned int	ft_atouint_overflow(const char *nbr)
 	i = 0;
 	result = 0;
 	if (nbr[i] == '\0')
-		return (UINT_MAX);
+		return (UINT_MAX-1);
 	while (nbr[i] == ' ' || (nbr[i] >= 9 && nbr[i] <= 13))
 		i++;
 	while (nbr[i] >= '0' && nbr[i] <= '9')
@@ -79,6 +79,23 @@ unsigned int	ft_atouint_overflow(const char *nbr)
 		result = result * 10 + (nbr[i] - '0');
 		if (result > UINT_MAX / 1000)
 			return (UINT_MAX);
+		i++;
+	}
+	return (result);
+}
+
+unsigned int	ft_atouint(const char *nbr)
+{
+	int				i;
+	unsigned int	result;
+
+	i = 0;
+	result = 0;
+	while (nbr[i] == ' ' || (nbr[i] >= 9 && nbr[i] <= 13))
+		i++;
+	while (nbr[i] >= '0' && nbr[i] <= '9')
+	{
+		result = result * 10 + (nbr[i] - '0');
 		i++;
 	}
 	return (result);

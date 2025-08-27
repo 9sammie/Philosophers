@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 13:36:18 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 20:40:31 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <time.h>
 # include <stdlib.h>
 
-//////////////////  ♠  messages  ♠  //////////////////
+//////////////////   ♠ messages ♠   //////////////////
 
 # define TOO_MUCH_ARGC	"Error: indecent number arguments\n"
 # define TOO_FEW_ARGC	"Error: a few more argument would be appreciated\n"
@@ -31,8 +31,9 @@
 # define MUTEX_FAIL		"Error: a mutex just failed\n"
 # define NOT_POSITIVE	"Error: negative numbers are ruining the mood...\n"
 # define OVERFLOW		"Error: an overflow shall not be accepted\n"
+# define EMPTY_PARAM	"Error: empty parameter detected\n"
 
-//////////////////  ♣    enum    ♣  //////////////////
+//////////////////     ♣ enum ♣     //////////////////
 
 typedef enum e__error
 {
@@ -40,6 +41,14 @@ typedef enum e__error
 	ERR_PROMPT,
 	ERR_MUTEX,
 }	t__error;
+
+typedef enum e_change
+{
+	IS_THINKING,
+	TAKE_A_FORK,
+	IS_EATING,
+	IS_SLEEPING,
+}	t_change;
 
 //////////////////  ♦ structures ♦  //////////////////
 
@@ -55,10 +64,10 @@ typedef struct	s_room
 	int				meals_nbr;
 	int				errcode;
 	bool			philo_died;
-	bool			printable;
+	bool			printing;
 	bool			meals_left;
 	pthread_mutex_t m_philo_died;
-	pthread_mutex_t m_printable;
+	pthread_mutex_t m_printing;
 	pthread_mutex_t m_meals_left;
 }	t_room;
 
@@ -68,7 +77,7 @@ typedef struct	s_fork
 	size_t			id;
 	bool			available;
 	bool			bool_mutex;
-	pthread_mutex_t mutex;
+	pthread_mutex_t m_available;
 	t_room			*room;
 }	t_fork;
 
@@ -76,6 +85,8 @@ typedef struct	s_philo
 {
 	struct s_philo	*next;
 	size_t			id;
+	size_t			t_eat;
+	size_t			t_sleep;
 	int				meals_remaining;
 	bool			parity;
 	t_room			*room;
@@ -84,6 +95,7 @@ typedef struct	s_philo
 	time_t			last_t_no_eat;
 	pthread_mutex_t	m_last_t_no_eat;
 	pthread_mutex_t	m_meals_remaining;
+	pthread_t		thread_id;
 }   t_philo;
 
 ///////////////////  ♥ fonctions ♥  //////////////////
@@ -92,17 +104,20 @@ typedef struct	s_philo
 
 ///// Execution /////
 
+/*launch.c*/
+
 
 ///// Parsing /////
 
 /*checks.c*/
 int				digit_check(int argc, char **argv);
 int				negative_check(int argc, char **argv);
-int				overflow_check(char **argv);
+int				overflow_and_empty_check(char **argv);
 /*converter.c*/
 time_t			ft_atot(const char *nptr);
 int				ft_atoi(const char *nptr);
 unsigned int	ft_atouint_overflow(const char *nbr);
+unsigned int	ft_atouint(const char *nbr);
 /*init.c*/
 int				room_init(int argc, char **argv, t_room *room);
 int				philo_and_fork_init(t_room *room, t_fork **fork, t_philo **philo);

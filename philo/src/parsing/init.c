@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:15:39 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 13:46:09 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/27 20:31:41 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ int	room_init(int argc, char **argv, t_room *room)
 	room->errcode = 10;
 	room->t_sim_start = 0;
 	room->philo_nbr = ft_atoi(argv[1]); 
-	room->t_die = ft_atot(argv[2]);
-	room->t_eat = ft_atot(argv[3]);
-	room->t_sleep = ft_atot(argv[4]);
+	room->t_die = ft_atouint(argv[2]);
+	room->t_eat = ft_atouint(argv[3]);
+	room->t_sleep = ft_atouint(argv[4]);
 	if (argc == 6)
 		room->meals_nbr = ft_atoi(argv[5]);
 	else
 		room->meals_nbr = -1;
-	room->philo_died = false; 
+	room->philo_died = false;
+	room->printing = true;
 	if(pthread_mutex_init(&room->m_philo_died, NULL) != 0)
 		return(p_ret_int(MUTEX_FAIL, ERR_MUTEX, room, -1));
 	if(pthread_mutex_init(&room->m_meals_left, NULL) != 0)
 		return(p_ret_int(MUTEX_FAIL, ERR_MUTEX, room, 1));
-	if(pthread_mutex_init(&room->m_printable, NULL) != 0)
+	if(pthread_mutex_init(&room->m_printing, NULL) != 0)
 		return(p_ret_int(MUTEX_FAIL, ERR_MUTEX, room, 2));
 	return (0);
 }
