@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:52 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/28 13:57:55 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 18:39:21 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,16 @@ void	print_change_of_state(t_philo *philo, size_t msg)
 	pthread_mutex_lock(&philo->room->m_philo_died);
 	timestamp = get_time_in_milliseconds() - philo->room->t_sim_start;
 	if (msg == TAKE_A_FORK && philo->room->philo_died != true)
+	{
 		printf("%zu %zu has taken a fork\n", timestamp, philo->id);
+		printf("%zu %zu has taken a fork\n", timestamp, philo->id);
+	}
 	if (msg == IS_EATING && philo->room->philo_died != true)
 		printf("%zu %zu is eating\n", timestamp, philo->id);
+	if (msg == IS_SLEEPING && philo->room->philo_died != true)
+		printf("%zu %zu is sleeping\n", timestamp, philo->id);
+	if (msg == IS_THINKING && philo->room->philo_died != true)
+		printf("%zu %zu is thinking\n", timestamp, philo->id);
 	pthread_mutex_unlock(&philo->room->m_printing);
 	pthread_mutex_unlock(&philo->room->m_philo_died);
 }

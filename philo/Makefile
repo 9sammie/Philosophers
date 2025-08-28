@@ -38,7 +38,7 @@ FILES_PARS				=		checks.c\
 								lk_ls_philo.c\
 								param_check.c
 
-FILES_EXEC				=		exec.c
+FILES_EXEC				=		run_philo.c
 
 FILES_UTILS				=		clean_project.c\
 								print_return.c\

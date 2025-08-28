@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/28 13:57:44 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 19:06:46 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef enum e__error
 typedef enum e_change
 {
 	IS_THINKING,
-	TAKE_A_FORK,
+	TAKING_FORKS,
 	IS_EATING,
 	IS_SLEEPING,
 }	t_change;
@@ -68,6 +68,7 @@ typedef struct	s_room
 	bool			printing;
 	bool			meals_left;
 	bool			time_to_start;
+	pthread_t		monitor_id;
 	pthread_mutex_t m_philo_died;
 	pthread_mutex_t m_printing;
 	pthread_mutex_t m_meals_left;
@@ -79,8 +80,8 @@ typedef struct	s_fork
 	size_t			id;
 	bool			available;
 	bool			bool_mutex;
-	pthread_mutex_t m_available;
 	t_room			*room;
+	pthread_mutex_t m_available;
 }	t_fork;
 
 typedef struct	s_philo
@@ -107,7 +108,7 @@ typedef struct	s_philo
 ///// Execution /////
 
 /*exec.c*/
-int				exec_philo(t_room *room, t_philo *philo);
+int				run_philo(t_room *room, t_philo *philo);
 
 ///// Parsing /////
 

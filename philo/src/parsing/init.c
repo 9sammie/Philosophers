@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:15:39 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/28 14:32:35 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 16:26:21 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	philo_and_fork_init(t_room *room, t_fork **fork, t_philo **philo)
 		return(-1);
 	fork_lstadd_back(fork, new_fork);
 	i++;
-	while (i <= (room->philo_nbr) + 1)
+	while (i <= room->philo_nbr)
 	{
 		new_fork = fork_lstnew(i, room);
 		if (new_fork == NULL)
@@ -62,7 +62,7 @@ int	philo_and_fork_init(t_room *room, t_fork **fork, t_philo **philo)
 		return(-1);
 	philo_lstadd_back(philo, new_philo);
 	i++;
-	while (i <= (room->philo_nbr) + 1)
+	while (i <= room->philo_nbr)
 	{
 		new_philo = philo_lstnew(i, room, *fork);
 		if (new_philo == NULL)
