@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:57:17 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 13:44:42 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 11:46:23 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv)
 		return(clean_project(&room, fork, philo));
 	if (philo_and_fork_init(&room, &fork, &philo) != ALL_OK)
 		return(clean_project(&room, fork, philo));
+	exec_philo(&room, philo);
 	// debug_print(&room, philo);
-	// exec();
 	return (clean_project(&room, fork, philo));
 }

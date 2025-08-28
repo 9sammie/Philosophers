@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:15:39 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 20:31:41 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 14:32:35 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	room_init(int argc, char **argv, t_room *room)
 		room->meals_nbr = -1;
 	room->philo_died = false;
 	room->printing = true;
+	room->time_to_start = false;
 	if(pthread_mutex_init(&room->m_philo_died, NULL) != 0)
 		return(p_ret_int(MUTEX_FAIL, ERR_MUTEX, room, -1));
 	if(pthread_mutex_init(&room->m_meals_left, NULL) != 0)

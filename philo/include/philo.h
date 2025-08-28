@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 20:40:31 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 13:57:44 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef enum e__error
 	ALL_OK,
 	ERR_PROMPT,
 	ERR_MUTEX,
+	ERR_GETTIMEOFDAY,
 }	t__error;
 
 typedef enum e_change
@@ -66,6 +67,7 @@ typedef struct	s_room
 	bool			philo_died;
 	bool			printing;
 	bool			meals_left;
+	bool			time_to_start;
 	pthread_mutex_t m_philo_died;
 	pthread_mutex_t m_printing;
 	pthread_mutex_t m_meals_left;
@@ -92,8 +94,8 @@ typedef struct	s_philo
 	t_room			*room;
 	t_fork			*main_fork;
 	t_fork			*side_fork;
-	time_t			last_t_no_eat;
-	pthread_mutex_t	m_last_t_no_eat;
+	time_t			last_t_eaten;
+	pthread_mutex_t	m_last_t_eaten;
 	pthread_mutex_t	m_meals_remaining;
 	pthread_t		thread_id;
 }   t_philo;
@@ -104,8 +106,8 @@ typedef struct	s_philo
 
 ///// Execution /////
 
-/*launch.c*/
-
+/*exec.c*/
+int				exec_philo(t_room *room, t_philo *philo);
 
 ///// Parsing /////
 
@@ -143,5 +145,6 @@ t_philo			*p_ret_t_philo(char *print, t_philo *err, t_room *room, int errcode);
 size_t			get_time_in_milliseconds(void);
 void			free_ls_fork(t_fork *fork);
 void			free_ls_philo(t_philo *philo);
+void			print_change_of_state(t_philo *philo, size_t msg);
 
 #endif

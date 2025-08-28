@@ -18,7 +18,7 @@ CC						=		cc
 OBJ_DIR					=		obj
 SRC_DIR					=		src
 PARS_DIR				=		parsing
-EXEC_DIR				=		execution
+EXEC_DIR				=		exec
 UTILS_DIR				=		utils
 
 ###################################################################################
@@ -38,7 +38,7 @@ FILES_PARS				=		checks.c\
 								lk_ls_philo.c\
 								param_check.c
 
-FILES_EXEC				=		launch.c
+FILES_EXEC				=		exec.c
 
 FILES_UTILS				=		clean_project.c\
 								print_return.c\

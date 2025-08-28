@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:52 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 20:14:57 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 13:57:55 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 size_t	get_time_in_milliseconds(void)
 {
 	struct timeval	time;
-	gettimeofday(&time, NULL);
+	if (gettimeofday(&time, NULL))
+		return (ERR_GETTIMEOFDAY);
 	return (time.tv_sec * 1000000 + time.tv_usec / 1000);
 }
 
@@ -54,4 +55,6 @@ void	print_change_of_state(t_philo *philo, size_t msg)
 		printf("%zu %zu has taken a fork\n", timestamp, philo->id);
 	if (msg == IS_EATING && philo->room->philo_died != true)
 		printf("%zu %zu is eating\n", timestamp, philo->id);
+	pthread_mutex_unlock(&philo->room->m_printing);
+	pthread_mutex_unlock(&philo->room->m_philo_died);
 }

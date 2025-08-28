@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:46:12 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 08:52:24 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 14:07:20 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	destroy_fork(t_fork *fork, t_room *room)
 	current = fork;
 	while (mutex_init_count > 0)
 	{
-		pthread_mutex_destroy(&current->mutex);
+		pthread_mutex_destroy(&current->m_available);
 		current = current->next;
 		mutex_init_count--;
 	}
@@ -54,7 +54,7 @@ static void	destroy_philo(t_philo *philo, t_fork *fork, t_room *room)
 	f_current = fork;
 	while (f_current->next)
 	{
-		pthread_mutex_destroy(&f_current->mutex);
+		pthread_mutex_destroy(&f_current->m_available);
 		f_current = f_current->next;
 	}
 	free_ls_fork(fork);
@@ -62,13 +62,13 @@ static void	destroy_philo(t_philo *philo, t_fork *fork, t_room *room)
 	mutex_init_count = 0;
 	while (mutex_init_count > 0)
 	{
-		pthread_mutex_destroy(&p_current->m_last_t_no_eat);
+		pthread_mutex_destroy(&p_current->m_last_t_eaten);
 		pthread_mutex_destroy(&p_current->m_meals_remaining);
 		p_current = p_current->next;
 		mutex_init_count--;
 	}
 	if (room->errcode == 5)
-		pthread_mutex_destroy(&philo->m_last_t_no_eat);
+		pthread_mutex_destroy(&philo->m_last_t_eaten);
 	free_ls_philo(philo);
 }
 
@@ -81,14 +81,14 @@ static void	destroy_all(t_philo *philo, t_fork *fork, t_room *room)
 	f_current = fork;
 	while (f_current->next)
 	{
-		pthread_mutex_destroy(&f_current->mutex);
+		pthread_mutex_destroy(&f_current->m_available);
 		f_current = f_current->next;
 	}
 	free_ls_fork(fork);
 	p_current = philo;
 	while (p_current->next)
 	{
-		pthread_mutex_destroy(&p_current->m_last_t_no_eat);
+		pthread_mutex_destroy(&p_current->m_last_t_eaten);
 		pthread_mutex_destroy(&p_current->m_meals_remaining);
 		p_current = p_current->next;
 	}
@@ -114,4 +114,3 @@ int	clean_project(t_room *room, t_fork *fork, t_philo *philo)
 		return (ERR_MUTEX);
 	return (ALL_OK);
 }
-

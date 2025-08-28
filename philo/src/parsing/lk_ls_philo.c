@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 06:39:10 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 20:41:17 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/28 13:53:09 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,18 @@ t_philo	*philo_lstnew(int i, t_room *room, t_fork *fork)
 		return (p_ret_t_philo(MALLOC_FAIL, NULL, room, 4));
 	new->next = NULL;
 	new->id = i;
+	new->main_fork = find_fork_pointer(false, i, fork, room->philo_nbr);
+	new->side_fork = find_fork_pointer(true, i, fork, room->philo_nbr);
 	if (i % 2 == 0)
-	{
 		new->parity = 0;
-		new->main_fork = find_fork_pointer(false, i, fork, room->philo_nbr);
-		new->side_fork = find_fork_pointer(true, i, fork, room->philo_nbr);
-	}
 	else
-	{
 		new->parity = 1;
-		new->main_fork = find_fork_pointer(true, i, fork, room->philo_nbr);
-		new->side_fork = find_fork_pointer(false, i, fork, room->philo_nbr);
-	}
-	new->last_t_no_eat = 0;
+	new->last_t_eaten = 0;
 	new->meals_remaining = room->meals_nbr;
 	new->room = room;
 	new->t_eat = room->t_eat;
 	new->t_sleep = room->t_sleep;
-		if (pthread_mutex_init(&new->m_last_t_no_eat, NULL) != 0)
+		if (pthread_mutex_init(&new->m_last_t_eaten, NULL) != 0)
 	{
 		free(new);
 		return (p_ret_t_philo(MUTEX_FAIL, NULL, room, 4));
