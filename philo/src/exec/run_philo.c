@@ -6,15 +6,58 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 14:19:38 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/28 19:12:57 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/29 14:25:51 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-void	*monitor_routine(t_philo *philo)
+void	*monitor_routine(void *arg)
 {
-	
+	(void)arg;
+	size_t	philo_nbr;
+	size_t	philo_full_nbr;
+	t_philo	*philo;
+	t_philo	*current;
+
+	philo = (t_philo*)arg;
+	philo_nbr = philo->room->philo_nbr;
+	usleep(philo->t_die);
+	pthread_mutex_lock(&philo->room->m_philo_died);
+	while (philo->room->philo_died == false)
+	{
+		pthread_mutex_unlock(&philo->room->m_philo_died);
+		current = philo;
+		philo_full_nbr = 0;
+		while (current->next)
+		{
+			pthread_mutex_lock(&current->m_last_t_eaten);
+			if ((get_time_in_ms() - current->last_t_eaten) > current->t_die)
+			{
+				printf("last_time_eaten: %zu\n", (get_time_in_ms() - current->last_t_eaten));
+				printf("%zu, %zu\n", get_time_in_ms(), current->last_t_eaten);
+				print_change_of_state(current, MAN_DOWN);
+				pthread_mutex_lock(&current->room->m_philo_died);
+				current->room->philo_died = true;
+				pthread_mutex_unlock(&current->room->m_philo_died);
+			}
+			pthread_mutex_unlock(&current->m_last_t_eaten);
+			pthread_mutex_lock(&current->m_meals_remaining);
+			// if (current->meals_remaining == 0)
+			// 	philo_full_nbr++;
+			pthread_mutex_unlock(&current->m_meals_remaining);
+			usleep(100);
+			current = current->next;
+		}
+		// if (philo_full_nbr == philo_nbr)
+		// {
+		// 	pthread_mutex_lock(&current->room->m_philo_died);
+		// 	current->room->philo_died = true;
+		// 	pthread_mutex_unlock(&current->room->m_philo_died);
+		// }
+		pthread_mutex_lock(&current->room->m_philo_died);
+	}
+	return (0);
 }
 
 int	hold_your_horses(t_philo *philo)
@@ -23,13 +66,12 @@ int	hold_your_horses(t_philo *philo)
 	while (!philo->room->time_to_start)
 	{
 		pthread_mutex_unlock(&philo->room->m_printing);
-		usleep(100);
+		usleep(10);
 		pthread_mutex_lock(&philo->room->m_printing);
 	}
-	usleep(100);
 	pthread_mutex_unlock(&philo->room->m_printing);
 	pthread_mutex_lock(&philo->m_last_t_eaten);
-	philo->last_t_eaten = get_time_in_milliseconds();
+	philo->last_t_eaten = get_time_in_ms();
 	if (philo->last_t_eaten == ERR_GETTIMEOFDAY)
 		return (ERR_GETTIMEOFDAY);
 	pthread_mutex_unlock(&philo->m_last_t_eaten);
@@ -38,35 +80,31 @@ int	hold_your_horses(t_philo *philo)
 
 static void	take_forks(t_philo *philo)
 {
-	while (1)
+	pthread_mutex_lock(&philo->main_fork->m_available);
+	while (!philo->main_fork->available)
 	{
-		pthread_mutex_lock(&philo->main_fork->m_available);
-		if (!philo->main_fork->available)
-		{
-			pthread_mutex_unlock(&philo->main_fork->m_available);
-            usleep(100);
-            continue;
-		}
-		philo->main_fork->available = false;
 		pthread_mutex_unlock(&philo->main_fork->m_available);
-		pthread_mutex_lock(&philo->side_fork->m_available);
-		if (!philo->side_fork->available)
-		{
-		    pthread_mutex_lock(&philo->main_fork->m_available);
-            philo->main_fork->available = true;
-            pthread_mutex_unlock(&philo->main_fork->m_available);
-            pthread_mutex_unlock(&philo->side_fork->m_available);
-			usleep(100);
-			continue;
-		}
-		philo->side_fork->available = false;
-		pthread_mutex_unlock(&philo->side_fork->m_available);
-		break;
+        usleep(10);
+		pthread_mutex_lock(&philo->main_fork->m_available);
 	}
+	philo->main_fork->available = false;
+	pthread_mutex_unlock(&philo->main_fork->m_available);
+	pthread_mutex_lock(&philo->side_fork->m_available);
+	while (!philo->side_fork->available)
+	{
+        pthread_mutex_unlock(&philo->side_fork->m_available);
+		usleep(10);
+		pthread_mutex_lock(&philo->side_fork->m_available);
+	}
+	philo->side_fork->available = false;
+	pthread_mutex_unlock(&philo->side_fork->m_available);
 }
 
 static void	put_down_forks(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->m_last_t_eaten);
+	philo->last_t_eaten = get_time_in_ms();
+	pthread_mutex_unlock(&philo->m_last_t_eaten);
 	pthread_mutex_lock(&philo->main_fork->m_available);
 	philo->main_fork->available = true;
 	pthread_mutex_unlock(&philo->main_fork->m_available);
@@ -77,16 +115,19 @@ static void	put_down_forks(t_philo *philo)
 
 void	odd_even_departure(t_philo *philo)
 {
-	if (philo->room->philo_nbr % 2 == 0)
+	if (!philo->philo_nbr_is_odd)
 	{
 		if (philo->parity == 0)
-			usleep(philo->t_eat/2);
+			usleep(philo->t_eat / 2);
 	}
 	else
 	{
 		if (philo->id % 3 > 0)
 			usleep((philo->id % 3) * (philo->t_eat / 3));
 	}
+	pthread_mutex_lock(&philo->m_last_t_eaten);
+	philo->last_t_eaten = get_time_in_ms();
+	pthread_mutex_unlock(&philo->m_last_t_eaten);
 }
 
 static void	*philo_routine(void *arg)
@@ -111,27 +152,66 @@ static void	*philo_routine(void *arg)
 		print_change_of_state(philo, IS_SLEEPING);
 		usleep(philo->t_sleep * 1000);
 		print_change_of_state(philo, IS_THINKING);
+		if (philo->philo_nbr_is_odd)
+			usleep(philo->t_eat / 2);
 		pthread_mutex_lock(&philo->room->m_philo_died);
 	}
+	pthread_mutex_unlock(&philo->room->m_philo_died);
 	return (0);
+}
+
+void	join_threads_on_error(t_philo *philo, size_t thread_created)
+{
+	t_philo *current;
+
+	current = philo;
+	pthread_mutex_lock(&philo->room->m_printing);
+	philo->room->t_sim_start = true;
+	philo->room->philo_died = true;
+	pthread_mutex_unlock(&philo->room->m_printing);
+	while (current && thread_created > 0)
+	{
+		pthread_join(current->thread_id, NULL);
+        current = current->next;
+		thread_created--;
+	}
+}
+
+void	join_thread_when_finished(t_philo *philo)
+{
+	t_philo *current;
+
+	current = philo;
+	pthread_join(philo->room->monitor_id, NULL);
+	while (current)
+	{
+		pthread_join(current->thread_id, NULL);
+        current = current->next;
+	}
 }
 
 int	run_philo(t_room *room, t_philo *philo)
 {
 	(void)room;
+	size_t	thread_created;
 	t_philo	*current;
 
+	thread_created = 0;
 	current = philo;
 	while (current)
 	{
-		pthread_create(&current->thread_id, NULL, &philo_routine, current);
-		usleep(100);
+		if (pthread_create(&current->thread_id, NULL, &philo_routine, current) != ALL_OK)
+		{
+			join_threads_on_error(philo, thread_created);
+			return (ERR_THREAD);
+		}
+		thread_created++;
 		current = current->next;
 	}
-	pthread(&philo->room->monitor_id, NULL, &monitor_routine, philo);
-	room->t_sim_start = get_time_in_milliseconds();
+	room->t_sim_start = get_time_in_ms();
 	pthread_mutex_lock(&room->m_printing);
 	room->time_to_start = true;
 	pthread_mutex_unlock(&room->m_printing);
+	pthread_create(&philo->room->monitor_id, NULL, &monitor_routine, philo);
 	return (ALL_OK);
 }

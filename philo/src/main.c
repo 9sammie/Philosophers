@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:57:17 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/28 17:52:19 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/29 14:26:35 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	main(int argc, char **argv)
 		return(clean_project(&room, fork, philo));
 	if (philo_and_fork_init(&room, &fork, &philo) != ALL_OK)
 		return(clean_project(&room, fork, philo));
-	exec_philo(&room, philo);
+	if (run_philo(&room, philo) != ALL_OK)
+		return(clean_project(&room, fork, philo));
 	// debug_print(&room, philo);
 	pthread_mutex_lock(&room.m_philo_died);
 	while (room.philo_died == false)
@@ -62,5 +63,7 @@ int	main(int argc, char **argv)
 		usleep(100);
 		pthread_mutex_lock(&room.m_philo_died);
 	}
+	pthread_mutex_unlock(&room.m_philo_died);
+	join_thread_when_finished(philo);
 	return (clean_project(&room, fork, philo));
 }
