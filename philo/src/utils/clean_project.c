@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:46:12 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/28 14:07:20 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/31 14:41:59 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ static void	destroy_philo(t_philo *philo, t_fork *fork, t_room *room)
 		p_current = p_current->next;
 		mutex_init_count--;
 	}
-	if (room->errcode == 5)
-		pthread_mutex_destroy(&philo->m_last_t_eaten);
 	free_ls_philo(philo);
 }
 
@@ -111,6 +109,6 @@ int	clean_project(t_room *room, t_fork *fork, t_philo *philo)
 	if (room->errcode == 10)
 		destroy_all(philo, fork, room);
 	if (room->errcode != 10)
-		return (ERR_MUTEX);
+		return (ERR);
 	return (ALL_OK);
 }

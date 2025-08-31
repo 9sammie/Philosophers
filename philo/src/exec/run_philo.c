@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 14:19:38 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/29 14:25:51 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/31 18:11:19 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*monitor_routine(void *arg)
 
 	philo = (t_philo*)arg;
 	philo_nbr = philo->room->philo_nbr;
-	usleep(philo->t_die);
+	usleep(philo->t_die * 1000);
 	pthread_mutex_lock(&philo->room->m_philo_died);
 	while (philo->room->philo_died == false)
 	{
@@ -43,20 +43,21 @@ void	*monitor_routine(void *arg)
 			}
 			pthread_mutex_unlock(&current->m_last_t_eaten);
 			pthread_mutex_lock(&current->m_meals_remaining);
-			// if (current->meals_remaining == 0)
-			// 	philo_full_nbr++;
+			if (current->meals_remaining == 0)
+				philo_full_nbr++;
 			pthread_mutex_unlock(&current->m_meals_remaining);
-			usleep(100);
+			usleep(10);
 			current = current->next;
 		}
-		// if (philo_full_nbr == philo_nbr)
-		// {
-		// 	pthread_mutex_lock(&current->room->m_philo_died);
-		// 	current->room->philo_died = true;
-		// 	pthread_mutex_unlock(&current->room->m_philo_died);
-		// }
+		if (philo_full_nbr == philo_nbr)
+		{
+			pthread_mutex_lock(&current->room->m_philo_died);
+			current->room->philo_died = true;
+			pthread_mutex_unlock(&current->room->m_philo_died);
+		}
 		pthread_mutex_lock(&current->room->m_philo_died);
 	}
+	pthread_mutex_unlock(&philo->room->m_philo_died);
 	return (0);
 }
 
@@ -111,6 +112,10 @@ static void	put_down_forks(t_philo *philo)
 	pthread_mutex_lock(&philo->side_fork->m_available);
 	philo->side_fork->available = true;
 	pthread_mutex_unlock(&philo->side_fork->m_available);
+	pthread_mutex_lock(&philo->m_meals_remaining);
+	if (philo->meals_remaining != 0)
+		philo->meals_remaining--;
+	pthread_mutex_unlock(&philo->m_meals_remaining);
 }
 
 void	odd_even_departure(t_philo *philo)
@@ -118,16 +123,20 @@ void	odd_even_departure(t_philo *philo)
 	if (!philo->philo_nbr_is_odd)
 	{
 		if (philo->parity == 0)
-			usleep(philo->t_eat / 2);
+			usleep(philo->t_eat * 500);
 	}
 	else
 	{
 		if (philo->id % 3 > 0)
-			usleep((philo->id % 3) * (philo->t_eat / 3));
+			usleep((philo->id % 3) * (philo->t_eat * 333));
 	}
 	pthread_mutex_lock(&philo->m_last_t_eaten);
 	philo->last_t_eaten = get_time_in_ms();
 	pthread_mutex_unlock(&philo->m_last_t_eaten);
+	pthread_mutex_lock(&philo->room->m_printing);
+	if (philo->room->t_sim_start == 0)
+		philo->room->t_sim_start = get_time_in_ms();
+	pthread_mutex_unlock(&philo->room->m_printing);
 }
 
 static void	*philo_routine(void *arg)
@@ -138,8 +147,8 @@ static void	*philo_routine(void *arg)
 	philo = (t_philo*)arg;
 	if (hold_your_horses(philo) != ALL_OK)
 		return (0);
-	print_change_of_state(philo, IS_THINKING);
 	odd_even_departure(philo);
+	print_change_of_state(philo, IS_THINKING);
 	pthread_mutex_lock(&philo->room->m_philo_died);
 	while(!philo->room->philo_died)
 	{
@@ -152,28 +161,26 @@ static void	*philo_routine(void *arg)
 		print_change_of_state(philo, IS_SLEEPING);
 		usleep(philo->t_sleep * 1000);
 		print_change_of_state(philo, IS_THINKING);
-		if (philo->philo_nbr_is_odd)
-			usleep(philo->t_eat / 2);
 		pthread_mutex_lock(&philo->room->m_philo_died);
 	}
 	pthread_mutex_unlock(&philo->room->m_philo_died);
 	return (0);
 }
 
-void	join_threads_on_error(t_philo *philo, size_t thread_created)
+void	join_threads_on_error(t_philo *philo, size_t thread_count)
 {
 	t_philo *current;
 
 	current = philo;
 	pthread_mutex_lock(&philo->room->m_printing);
-	philo->room->t_sim_start = true;
+	philo->room->time_to_start = true;
 	philo->room->philo_died = true;
 	pthread_mutex_unlock(&philo->room->m_printing);
-	while (current && thread_created > 0)
+	while (current && thread_count >= 0)
 	{
 		pthread_join(current->thread_id, NULL);
         current = current->next;
-		thread_created--;
+		thread_count--;
 	}
 }
 
@@ -190,28 +197,43 @@ void	join_thread_when_finished(t_philo *philo)
 	}
 }
 
-int	run_philo(t_room *room, t_philo *philo)
+int	create_philo_and_monitor(t_room *room, t_philo *philo)
 {
 	(void)room;
-	size_t	thread_created;
+	size_t	thread_count;
 	t_philo	*current;
 
-	thread_created = 0;
+	thread_count = 0;
 	current = philo;
 	while (current)
 	{
 		if (pthread_create(&current->thread_id, NULL, &philo_routine, current) != ALL_OK)
 		{
-			join_threads_on_error(philo, thread_created);
+			join_threads_on_error(philo, thread_count);
 			return (ERR_THREAD);
 		}
-		thread_created++;
+		thread_count++;
 		current = current->next;
 	}
-	room->t_sim_start = get_time_in_ms();
 	pthread_mutex_lock(&room->m_printing);
 	room->time_to_start = true;
 	pthread_mutex_unlock(&room->m_printing);
 	pthread_create(&philo->room->monitor_id, NULL, &monitor_routine, philo);
 	return (ALL_OK);
+}
+
+int	manage_all_philo(t_room *room, t_philo *philo)
+{
+	if (create_philo_and_monitor(room, philo) != ALL_OK)
+		return(ERR_THREAD);
+	pthread_mutex_lock(&room->m_philo_died);
+	while (room->philo_died == false)
+	{
+		pthread_mutex_unlock(&room->m_philo_died);
+		usleep(10);
+		pthread_mutex_lock(&room->m_philo_died);
+	}
+	pthread_mutex_unlock(&room->m_philo_died);
+	join_thread_when_finished(philo);
+	return(ALL_OK);
 }

@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/29 14:24:07 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/31 14:41:29 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum e__error
 {
 	ALL_OK,
 	ERR_PROMPT,
+	ERR,
 	ERR_MUTEX,
 	ERR_THREAD,
 	ERR_GETTIMEOFDAY,
@@ -112,7 +113,8 @@ typedef struct	s_philo
 ///// Execution /////
 
 /*exec.c*/
-int				run_philo(t_room *room, t_philo *philo);
+int				create_philo_and_monitor(t_room *room, t_philo *philo);
+int				manage_all_philo(t_room *room, t_philo *philo);
 void			join_thread_when_finished(t_philo *philo);
 
 ///// Parsing /////

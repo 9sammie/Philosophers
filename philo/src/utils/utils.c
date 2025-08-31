@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:52 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/29 10:15:53 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/31 15:10:21 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	get_time_in_ms(void)
 	struct timeval	time;
 	if (gettimeofday(&time, NULL))
 		return (ERR_GETTIMEOFDAY);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	return ((time.tv_sec * 1000) + (time.tv_usec * 0.001));
 }
 
 void	free_ls_fork(t_fork *fork)
