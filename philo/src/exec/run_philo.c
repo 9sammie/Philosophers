@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 14:19:38 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/31 18:11:19 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/31 19:55:46 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,12 @@ void	*monitor_routine(void *arg)
 	{
 		pthread_mutex_unlock(&philo->room->m_philo_died);
 		current = philo;
-		philo_full_nbr = 0;
+		philo_full_nbr = 1;
 		while (current->next)
 		{
 			pthread_mutex_lock(&current->m_last_t_eaten);
 			if ((get_time_in_ms() - current->last_t_eaten) > current->t_die)
 			{
-				printf("last_time_eaten: %zu\n", (get_time_in_ms() - current->last_t_eaten));
-				printf("%zu, %zu\n", get_time_in_ms(), current->last_t_eaten);
 				print_change_of_state(current, MAN_DOWN);
 				pthread_mutex_lock(&current->room->m_philo_died);
 				current->room->philo_died = true;
@@ -51,9 +49,11 @@ void	*monitor_routine(void *arg)
 		}
 		if (philo_full_nbr == philo_nbr)
 		{
+			print_change_of_state(philo, PHILO_FULL);
 			pthread_mutex_lock(&current->room->m_philo_died);
 			current->room->philo_died = true;
 			pthread_mutex_unlock(&current->room->m_philo_died);
+			break;
 		}
 		pthread_mutex_lock(&current->room->m_philo_died);
 	}
@@ -79,6 +79,20 @@ int	hold_your_horses(t_philo *philo)
 	return (ALL_OK);
 }
 
+int	comp_forks_id(t_philo *philo)
+{
+	if (philo->main_fork->id == philo->side_fork->id)
+	{
+		print_change_of_state(philo, TAKING_1_FORK);
+		pthread_mutex_lock(&philo->room->m_philo_died);
+		philo->room->philo_died = true;
+		pthread_mutex_unlock(&philo->room->m_philo_died);
+		usleep(philo->t_die * 1000);
+		return (ERR);
+	}
+	return (ALL_OK);
+}
+
 static void	take_forks(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->main_fork->m_available);
@@ -90,6 +104,8 @@ static void	take_forks(t_philo *philo)
 	}
 	philo->main_fork->available = false;
 	pthread_mutex_unlock(&philo->main_fork->m_available);
+	if (comp_forks_id(philo) != ALL_OK)
+		return;
 	pthread_mutex_lock(&philo->side_fork->m_available);
 	while (!philo->side_fork->available)
 	{

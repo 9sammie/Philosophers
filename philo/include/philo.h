@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/31 14:41:29 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/31 20:26:09 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@
 
 //////////////////   ♠ messages ♠   //////////////////
 
-# define TOO_MUCH_ARGC	"Error: indecent number arguments\n"
-# define TOO_FEW_ARGC	"Error: a few more argument would be appreciated\n"
-# define PHILO_MAX		"Error: too many philosophers\n"
-# define NOT_DIGIT		"Error: Please enter digit parameters only\n"
-# define MALLOC_FAIL	"Error: a malloc just failed\n"
-# define MUTEX_FAIL		"Error: a mutex just failed\n"
-# define NOT_POSITIVE	"Error: negative numbers are ruining the mood...\n"
-# define OVERFLOW		"Error: an overflow shall not be accepted\n"
-# define EMPTY_PARAM	"Error: empty parameter detected\n"
+# define TOO_MUCH_ARGC	"Error: indecent number of arguments 😽\n"
+# define TOO_FEW_ARGC	"Error: a few more argument would be appreciated 🫶\n"
+# define PHILO_MAX		"Error: too many philosophers 🧙‍♂️\n"
+# define MEAL_MAX		"Error: too many meals 🍜 🫄\n"
+# define NOT_DIGIT		"Error: Please enter digit parameters only 🙏\n"
+# define MALLOC_FAIL	"Error: a malloc just failed 🫀\n"
+# define MUTEX_FAIL		"Error: a mutex just failed 🫀\n"
+# define NOT_POSITIVE	"Error: negative numbers are ruining the mood... 🐻‍❄️\n"
+# define OVERFLOW		"Error: an overflow shall not be accepted 🙅\n"
+# define EMPTY_PARAM	"Error: empty parameter detected 🦗\n"
 
 //////////////////     ♣ enum ♣     //////////////////
 
@@ -40,6 +41,7 @@ typedef enum e__error
 	ALL_OK,
 	ERR_PROMPT,
 	ERR,
+	ERR_MALLOC,
 	ERR_MUTEX,
 	ERR_THREAD,
 	ERR_GETTIMEOFDAY,
@@ -49,9 +51,11 @@ typedef enum e_change
 {
 	IS_THINKING,
 	TAKING_FORKS,
+	TAKING_1_FORK,
 	IS_EATING,
 	IS_SLEEPING,
 	MAN_DOWN,
+	PHILO_FULL,
 }	t_change;
 
 //////////////////  ♦ structures ♦  //////////////////

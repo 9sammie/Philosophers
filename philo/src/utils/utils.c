@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:52 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/31 15:10:21 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/08/31 20:25:40 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	print_change_of_state(t_philo *philo, size_t msg)
 		printf("%zu %zu has taken a fork\n", timestamp, philo->id);
 		printf("%zu %zu has taken a fork\n", timestamp, philo->id);
 	}
+	if (msg == TAKING_1_FORK && philo->room->philo_died != true)
+		printf("%zu %zu has taken a fork\n", timestamp, philo->id);
 	if (msg == IS_EATING && philo->room->philo_died != true)
 		printf("%zu %zu is eating\n", timestamp, philo->id);
 	if (msg == IS_SLEEPING && philo->room->philo_died != true)
@@ -64,6 +66,8 @@ void	print_change_of_state(t_philo *philo, size_t msg)
 		printf("%zu %zu is thinking\n", timestamp, philo->id);
 	if (msg == MAN_DOWN && philo->room->philo_died != true)
 		printf("%zu %zu died\n", timestamp, philo->id);
+	if (msg == PHILO_FULL && philo->room->philo_died != true)
+		printf("%zu All philo ate at least %d meals\n", timestamp, philo->room->meals_nbr);
 	pthread_mutex_unlock(&philo->room->m_printing);
 	pthread_mutex_unlock(&philo->room->m_philo_died);
 }
