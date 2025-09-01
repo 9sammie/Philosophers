@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 16:41:43 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 19:11:38 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 //////////////////   ♠ messages ♠   //////////////////
 
 # define MEAL_MAX		"Error: too many meals 🍜 🫄\n"
+# define MEAL_EMPTY		"Error: cannot eat 0 meal 🍜\n"
 # define MUTEX_FAIL		"Error: a mutex just failed 🫀\n"
 # define MALLOC_FAIL	"Error: a malloc just failed 🫀\n"
 # define PHILO_MAX		"Error: too many philosophers 🧙‍♂️\n"
