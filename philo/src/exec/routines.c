@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:04 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 14:14:18 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 16:42:44 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	hold_your_horses(t_philo *philo)
 	while (!philo->room->time_to_start)
 	{
 		pthread_mutex_unlock(&philo->room->m_printing);
-		usleep(10);
+		// usleep(10);
 		pthread_mutex_lock(&philo->room->m_printing);
 	}
 	pthread_mutex_unlock(&philo->room->m_printing);
@@ -32,16 +32,9 @@ static int	hold_your_horses(t_philo *philo)
 
 static void	odd_even_departure(t_philo *philo)
 {
-	if (!philo->philo_nbr_is_odd)
-	{
-		if (philo->parity == 0)
-			usleep(philo->t_eat * 500);
-	}
-	else
-	{
-		if (philo->id % 3 > 0)
-			usleep((philo->id % 3) * (philo->t_eat * 333));
-	}
+
+	if (philo->parity == 0)
+		usleep(philo->t_eat * 500);
 	pthread_mutex_lock(&philo->m_last_t_eaten);
 	philo->last_t_eaten = get_time_in_ms();
 	pthread_mutex_unlock(&philo->m_last_t_eaten);
@@ -51,14 +44,14 @@ static void	odd_even_departure(t_philo *philo)
 	pthread_mutex_unlock(&philo->room->m_printing);
 }
 
-static void	parse_all_philo(t_philo *current, size_t philo_full_nbr)
+static void	parse_all_philo(t_philo *current, size_t *philo_full_nbr)
 {
 	while (current->next)
 	{
 		check_philo_down(current);
 		pthread_mutex_lock(&current->m_meals_remaining);
 		if (current->meals_remaining == 0)
-			philo_full_nbr++;
+			(*philo_full_nbr)++;
 		pthread_mutex_unlock(&current->m_meals_remaining);
 		usleep(10);
 		current = current->next;
@@ -82,7 +75,7 @@ void	*monitor_routine(void *arg)
 		pthread_mutex_unlock(&philo->room->m_philo_died);
 		current = philo;
 		philo_full_nbr = 1;
-		parse_all_philo(current, philo_full_nbr);
+		parse_all_philo(current, &philo_full_nbr);
 		if (check_philo_full(current, philo, philo_full_nbr, philo_nbr))
 			break ;
 		pthread_mutex_lock(&current->room->m_philo_died);

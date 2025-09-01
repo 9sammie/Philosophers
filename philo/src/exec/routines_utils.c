@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:16:39 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 14:16:05 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 16:42:29 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ void	take_forks(t_philo *philo)
 	}
 	philo->side_fork->available = false;
 	pthread_mutex_unlock(&philo->side_fork->m_available);
+	pthread_mutex_lock(&philo->m_last_t_eaten);
+	philo->last_t_eaten = get_time_in_ms();
+	pthread_mutex_unlock(&philo->m_last_t_eaten);
 }
 
 void	put_down_forks(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->m_last_t_eaten);
-	philo->last_t_eaten = get_time_in_ms();
-	pthread_mutex_unlock(&philo->m_last_t_eaten);
 	pthread_mutex_lock(&philo->main_fork->m_available);
 	philo->main_fork->available = true;
 	pthread_mutex_unlock(&philo->main_fork->m_available);

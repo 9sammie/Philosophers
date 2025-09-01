@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 14:36:15 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 16:41:43 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ typedef enum e_change
 	MAN_DOWN,
 	PHILO_FULL,
 }	t_change;
+
+typedef enum e_departure
+{
+	YES,
+	NO,
+}	t_departure;
 
 //////////////////  ♦ structures ♦  //////////////////
 
