@@ -6,12 +6,12 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:14:44 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 16:34:32 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 14:26:09 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-# include <limits.h>
+#include <limits.h>
 
 time_t	ft_atot(const char *nptr)
 {
@@ -71,7 +71,7 @@ unsigned int	ft_atouint_overflow(const char *nbr)
 	i = 0;
 	result = 0;
 	if (nbr[i] == '\0')
-		return (UINT_MAX-1);
+		return (UINT_MAX -1);
 	while (nbr[i] == ' ' || (nbr[i] >= 9 && nbr[i] <= 13))
 		i++;
 	while (nbr[i] >= '0' && nbr[i] <= '9')

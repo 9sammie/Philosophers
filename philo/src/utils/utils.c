@@ -6,15 +6,17 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:52 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/31 20:25:40 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 14:23:19 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
+#include <sys/time.h>
 
 size_t	get_time_in_ms(void)
 {
 	struct timeval	time;
+
 	if (gettimeofday(&time, NULL))
 		return (ERR_GETTIMEOFDAY);
 	return ((time.tv_sec * 1000) + (time.tv_usec * 0.001));
@@ -47,10 +49,12 @@ void	free_ls_philo(t_philo *philo)
 void	print_change_of_state(t_philo *philo, size_t msg)
 {
 	size_t	timestamp;
-	
+
 	pthread_mutex_lock(&philo->room->m_printing);
 	pthread_mutex_lock(&philo->room->m_philo_died);
 	timestamp = get_time_in_ms() - philo->room->t_sim_start;
+	if (msg == MAN_DOWN && philo->room->philo_died != true)
+		printf("%zu %zu died\n", timestamp, philo->id);
 	if (msg == TAKING_FORKS && philo->room->philo_died != true)
 	{
 		printf("%zu %zu has taken a fork\n", timestamp, philo->id);
@@ -64,10 +68,8 @@ void	print_change_of_state(t_philo *philo, size_t msg)
 		printf("%zu %zu is sleeping\n", timestamp, philo->id);
 	if (msg == IS_THINKING && philo->room->philo_died != true)
 		printf("%zu %zu is thinking\n", timestamp, philo->id);
-	if (msg == MAN_DOWN && philo->room->philo_died != true)
-		printf("%zu %zu died\n", timestamp, philo->id);
 	if (msg == PHILO_FULL && philo->room->philo_died != true)
-		printf("%zu All philo ate at least %d meals\n", timestamp, philo->room->meals_nbr);
+		printf("%zu All ate %d meals\n", timestamp, philo->room->meals_nbr);
 	pthread_mutex_unlock(&philo->room->m_printing);
 	pthread_mutex_unlock(&philo->room->m_philo_died);
 }

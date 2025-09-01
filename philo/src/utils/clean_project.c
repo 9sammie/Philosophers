@@ -6,11 +6,11 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:46:12 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/31 14:41:59 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 14:19:21 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
 static void	destroy_room(t_room *room)
 {
@@ -21,13 +21,13 @@ static void	destroy_room(t_room *room)
 
 static void	destroy_fork(t_fork *fork, t_room *room)
 {
-	t_fork *current;
-	int	mutex_init_count;
+	t_fork	*current;
+	int		mutex_init_count;
 
 	destroy_room(room);
 	current = fork;
 	if (current->next == NULL)
-		return;
+		return ;
 	mutex_init_count = 0;
 	while (current->next)
 	{

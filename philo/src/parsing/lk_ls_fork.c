@@ -6,16 +6,16 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:05:32 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/27 20:26:50 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 14:27:48 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
 t_fork	*fork_lstnew(int i, t_room *room)
 {
 	t_fork	*new;
-	
+
 	new = malloc(sizeof (t_fork));
 	if (!new)
 		return (p_ret_t_fork(MALLOC_FAIL, NULL, room, 3));

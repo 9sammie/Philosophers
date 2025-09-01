@@ -6,15 +6,15 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 06:39:10 by maballet          #+#    #+#             */
-/*   Updated: 2025/08/31 14:40:04 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/01 14:28:15 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
 static t_fork	*find_fork_pointer(bool r_fork, int i, t_fork *f, int nbr_philo)
 {
-	t_fork *current;
+	t_fork	*current;
 	int		j;
 
 	current = f;
@@ -50,8 +50,8 @@ t_philo	*philo_lstnew(int i, t_room *room, t_fork *fork)
 	new->t_eat = room->t_eat;
 	new->t_sleep = room->t_sleep;
 	new->t_die = room->t_die;
-		if (pthread_mutex_init(&new->m_last_t_eaten, NULL) != 0
-			|| pthread_mutex_init(&new->m_meals_remaining, NULL) != 0)
+	if (pthread_mutex_init(&new->m_last_t_eaten, NULL) != 0
+		|| pthread_mutex_init(&new->m_meals_remaining, NULL) != 0)
 	{
 		free(new);
 		return (p_ret_t_philo(MUTEX_FAIL, NULL, room, 4));
