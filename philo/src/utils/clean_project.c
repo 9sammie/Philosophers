@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:46:12 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 14:19:21 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/02 18:14:15 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	destroy_room(t_room *room)
 {
 	pthread_mutex_destroy(&room->m_philo_died);
 	pthread_mutex_destroy(&room->m_meals_left);
-	pthread_mutex_destroy(&room->m_meals_left);
+	pthread_mutex_destroy(&room->m_printing);
 }
 
 static void	destroy_fork(t_fork *fork, t_room *room)

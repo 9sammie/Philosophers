@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:04 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 16:42:44 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/02 18:08:17 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	hold_your_horses(t_philo *philo)
 	while (!philo->room->time_to_start)
 	{
 		pthread_mutex_unlock(&philo->room->m_printing);
-		// usleep(10);
+		usleep(1);
 		pthread_mutex_lock(&philo->room->m_printing);
 	}
 	pthread_mutex_unlock(&philo->room->m_printing);
@@ -76,8 +76,7 @@ void	*monitor_routine(void *arg)
 		current = philo;
 		philo_full_nbr = 1;
 		parse_all_philo(current, &philo_full_nbr);
-		if (check_philo_full(current, philo, philo_full_nbr, philo_nbr))
-			break ;
+		check_philo_full(current, philo, philo_full_nbr, philo_nbr);
 		pthread_mutex_lock(&current->room->m_philo_died);
 	}
 	pthread_mutex_unlock(&philo->room->m_philo_died);
@@ -104,7 +103,7 @@ void	*philo_routine(void *arg)
 		usleep(philo->t_eat * 1000);
 		put_down_forks(philo);
 		print_change_of_state(philo, IS_SLEEPING);
-		usleep(philo->t_sleep * 1000);
+		usleep(philo->t_sleep * 1000 + 1000);
 		print_change_of_state(philo, IS_THINKING);
 		pthread_mutex_lock(&philo->room->m_philo_died);
 	}
