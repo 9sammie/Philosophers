@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 09:33:41 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 19:12:06 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/02 09:12:12 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,13 @@ int	negative_check(int argc, char **argv)
 
 int	overflow_and_empty_check(char **argv)
 {
-	if (ft_atouint_overflow(argv[2]) == UINT_MAX
+	if (ft_atouint_overflow(argv[1]) == UINT_MAX
+		|| ft_atouint_overflow(argv[2]) == UINT_MAX
 		|| ft_atouint_overflow(argv[3]) == UINT_MAX
 		|| ft_atouint_overflow(argv[4]) == UINT_MAX)
 		return (p_ret_int(OVERFLOW, ERR_PROMPT, NULL, 0));
-	if (ft_atouint_overflow(argv[2]) == UINT_MAX -1
+	if (ft_atouint_overflow(argv[1]) == UINT_MAX -1
+		|| ft_atouint_overflow(argv[2]) == UINT_MAX -1
 		|| ft_atouint_overflow(argv[3]) == UINT_MAX -1
 		|| ft_atouint_overflow(argv[4]) == UINT_MAX -1)
 		return (p_ret_int(EMPTY_PARAM, ERR_PROMPT, NULL, 0));

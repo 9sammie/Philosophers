@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 19:11:38 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/02 09:46:38 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,19 @@
 //////////////////   ♠ messages ♠   //////////////////
 
 # define MEAL_MAX		"Error: too many meals 🍜 🫄\n"
-# define MEAL_EMPTY		"Error: cannot eat 0 meal 🍜\n"
+# define MEAL_MIN		"Error: cannot eat 0 meal 🍜\n"
 # define MUTEX_FAIL		"Error: a mutex just failed 🫀\n"
 # define MALLOC_FAIL	"Error: a malloc just failed 🫀\n"
-# define PHILO_MAX		"Error: too many philosophers 🧙‍♂️\n"
+# define PHILO_MAX		"Error: too many philosophers 🧙\n"
 # define EMPTY_PARAM	"Error: empty parameter detected 🦗\n"
 # define TOO_MUCH_ARGC	"Error: indecent number of arguments 😽\n"
 # define OVERFLOW		"Error: an overflow shall not be accepted 🙅\n"
-# define NOT_DIGIT		"Error: Please enter digit parameters only 🙏\n"
+# define PHILO_MIN		"Error: at least one philosopher expected 🧙\n"
+# define NOT_DIGIT		"Error: please enter digit parameters only 🙏\n"
 # define TOO_FEW_ARGC	"Error: a few more argument would be appreciated 🫶\n"
-# define NOT_POSITIVE	"Error: negative numbers are ruining the mood... 🐻‍❄️\n"
+# define NOT_POSITIVE	"Error: negative numbers are ruining the mood... 🐗\n"
+# define SLEEP_MIN		"Error: no sleepping could impact philosophers mental health 🌌\n"
+# define EAT_MIN		"Error: don't starve the philosophers, they didn't choose to be here 🍔\n"
 
 //////////////////     ♣ enum ♣     //////////////////
 

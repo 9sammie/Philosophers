@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:53:08 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/01 19:11:25 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/02 09:48:18 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,18 @@ static int	argv_check(int argc, char **argv)
 		return (ERR_PROMPT);
 	if (overflow_and_empty_check(argv) != ALL_OK)
 		return (ERR_PROMPT);
-	if (ft_atoi(argv[1]) > 200)
+	if (ft_atoi(argv[1]) > 5000)
 		return (p_ret_int(PHILO_MAX, ERR_PROMPT, NULL, 0));
+	if (ft_atoi(argv[1]) == 0)
+		return (p_ret_int(PHILO_MIN, ERR_PROMPT, NULL, 0));
+	if (ft_atoi(argv[3]) == 0)
+		return (p_ret_int(EAT_MIN, ERR_PROMPT, NULL, 0));
+	if (ft_atoi(argv[4]) == 0)
+		return (p_ret_int(SLEEP_MIN, ERR_PROMPT, NULL, 0));
 	if (argv[5])
 	{
 		if (ft_atoi(argv[5]) == 0)
-			return (p_ret_int(MEAL_EMPTY, ERR_PROMPT, NULL, 0));
+			return (p_ret_int(MEAL_MIN, ERR_PROMPT, NULL, 0));
 		if (ft_atoi(argv[5]) > 1000000)
 			return (p_ret_int(MEAL_MAX, ERR_PROMPT, NULL, 0));
 	}
