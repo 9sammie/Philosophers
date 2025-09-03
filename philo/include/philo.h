@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:11:55 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/02 11:22:29 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/03 10:28:18 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 // # define EAT_MIN		"Error: please don't starve the philosophers🍔\n"
 # define TOO_FEW_ARGC	"Error: a few more argument would be appreciated 🫶\n"
 # define NOT_POSITIVE	"Error: negative numbers are ruining the mood... 🐗\n"
-// # define SLEEP_MIN	"Error: no sleepping could impact philosophers mental health 🌌\n"
+// # define SLEEP_MIN	"Error: no sleep could impact philo mental health 🌌\n"
 
 //////////////////     ♣ enum ♣     //////////////////
 

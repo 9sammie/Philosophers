@@ -6,7 +6,7 @@
 /*   By: maballet <maballet@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:04 by maballet          #+#    #+#             */
-/*   Updated: 2025/09/02 18:08:17 by maballet         ###   ########lyon.fr   */
+/*   Updated: 2025/09/03 10:27:25 by maballet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	hold_your_horses(t_philo *philo)
 
 static void	odd_even_departure(t_philo *philo)
 {
-
 	if (philo->parity == 0)
 		usleep(philo->t_eat * 500);
 	pthread_mutex_lock(&philo->m_last_t_eaten);
